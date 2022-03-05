@@ -30,4 +30,4 @@ jobs:
         with:
           context: ./project
           push: true
-          tags: techtrends:latest
+          tags: skluwe/techtrends:latest
