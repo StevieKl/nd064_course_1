@@ -21,7 +21,7 @@ spec:
         app: techtrends
     spec:
       containers:
-      - image: techtrends:1:0:0
+      - image: skluwe/techtrends:latest
         imagePullPolicy: IfNotPresent
         name: techtrends
         ports:
