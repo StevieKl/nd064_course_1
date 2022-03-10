@@ -1,6 +1,7 @@
 import logging
 import sqlite3
 import sys
+import os.path
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
@@ -96,12 +97,14 @@ def create():
 
 @app.route('/healthz')
 def checkhealth():
-    # try to connect
-    connection = get_db_connection()
-    if connection:
+    # check if database file exists
+    # deliberately using the legacy filecheck method, so it should also work sensibly on python 2
+    
+    if os.path.isfile('database.db'):
+        connection = get_db_connection()
          # then check if there are rows
         table_exists = connection.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='posts'")
-        if table_exists:
+        if table_exists.rowcount > 0:
             response = app.response_class(
                 response=json.dumps({"result": "OK - healthy"}),
                 status=200,
@@ -110,9 +113,9 @@ def checkhealth():
             app.logger.info('Health request successful')
             return response
         else:
-            app.logger.warn('No posts found')
+            app.logger.error("No table 'posts' found")
     else:
-        app.logger.error('No database was found or created')
+        app.logger.fatal('No database was found or created')
     
     response = app.response_class(
                 response=json.dumps({"result": "ERROR - unhealthy"}),

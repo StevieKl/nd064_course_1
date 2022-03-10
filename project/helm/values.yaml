@@ -3,7 +3,8 @@ namespace:
 
 service:
   port: 4111
-  targetPort: 3111
+# as per Standout suggestion 3:
+#  targetPort: 3111
   protocol: TCP
   type: ClusterIP
  
