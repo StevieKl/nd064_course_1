@@ -144,6 +144,10 @@ if __name__ == "__main__":
     stdout_handler = logging.StreamHandler(sys.stdout)
     stdout_handler.setLevel(logging.INFO)
 
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setLevel(logging.ERROR)
+    
     app.logger.addHandler(stdout_handler)
+    app.logger.addHandler(stderr_handler)
 
     app.run(host='0.0.0.0', port='3111')
